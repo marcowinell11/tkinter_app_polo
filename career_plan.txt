@@ -1,0 +1,167 @@
+CAREER PLAN — Computer Programming
+====================================
+Your Name:
+Date:
+
+
+INSTRUCTIONS
+------------
+Answer each prompt below in full sentences. Write directly in this file
+under each question. There are no right or wrong answers, but shallow
+answers ("I liked coding" or "I want to make games") won't score well.
+Push yourself to be specific and honest.
+
+This will be submitted separately from your main project.
+
+
+------------------------------------------------------------
+PART 1: SKILLS INVENTORY
+------------------------------------------------------------
+
+1a. What technical skills did you develop or strengthen in this course?
+    List at least FIVE and be specific — not just "Python" but what
+    aspects of Python, and what you can now actually do with them.
+
+YOUR ANSWER:
+
+
+
+
+1b. What soft skills did you practice?
+    (Examples: problem-solving, debugging independently, communicating
+    about code, managing a multi-part project, reading documentation)
+    Describe a specific moment from this project where one of these
+    soft skills mattered.
+
+YOUR ANSWER:
+
+
+
+
+1c. Honest self-assessment: What is still a weak spot for you technically?
+    What concept or skill do you feel shaky on and would need more practice?
+
+YOUR ANSWER:
+
+
+
+
+------------------------------------------------------------
+PART 2: CAREER INTERESTS
+------------------------------------------------------------
+
+2a. This course touched on several areas of programming:
+      - Desktop app development (Tkinter / GUI)
+      - Web APIs and networking (SecureAPI unit)
+      - Cryptography and security
+      - Data storage and persistence
+      - Version control and collaborative workflows
+
+    Which area interested you most? Which interested you least?
+    Be honest and explain why.
+
+YOUR ANSWER:
+
+
+
+
+2b. Look up ONE of the following roles online (or a different tech
+    role that interests you) and briefly describe what they actually do
+    day-to-day based on what you find:
+
+      - Software Developer
+      - UX / UI Designer
+      - Cybersecurity Analyst
+      - Data Scientist
+      - DevOps Engineer
+      - IT Support Specialist
+      - Game Developer
+      - Mobile App Developer
+
+    Role you researched:
+
+    What they actually do (in your own words, 3-5 sentences):
+
+YOUR ANSWER:
+
+
+
+
+2c. Does that role appeal to you? Why or why not?
+    If not, which role sounds more interesting and why?
+
+YOUR ANSWER:
+
+
+
+
+------------------------------------------------------------
+PART 3: NEXT STEPS
+------------------------------------------------------------
+
+3a. What ONE skill would make the biggest difference to you
+    in the next year — and what's one specific, concrete way
+    you could develop it? (A course, a project, a resource, etc.)
+
+YOUR ANSWER:
+
+
+
+
+3b. Sketch a loose 2-year plan. It doesn't have to be detailed or
+    certain — just think about what you'd like to be doing or learning
+    at each point. 
+
+    6 months from now:
+
+    1 year from now:
+
+    2 years from now:
+
+YOUR ANSWER:
+
+
+
+
+------------------------------------------------------------
+PART 4: REFLECTION ON THIS PROJECT
+------------------------------------------------------------
+
+4a. What part of this project are you most proud of?
+    Be specific — point to a function, a design decision, a problem
+    you solved, not just "the whole thing."
+
+YOUR ANSWER:
+
+
+
+
+4b. What was the hardest moment in this project?
+    What did you try? What eventually worked (or didn't)?
+
+YOUR ANSWER:
+
+
+
+
+4c. If you had one more week to work on your app, what would you do?
+    Why that specifically?
+
+YOUR ANSWER:
+
+
+
+
+4d. If you were a developer at a company and had just completed this
+    project with a team, what would you say at the retrospective?
+    What went well? What would the team do differently next time?
+    (Answer as if you were part of a real team, even though you worked solo.)
+
+YOUR ANSWER:
+
+
+
+
+====================================
+END OF CAREER PLAN
+====================================
