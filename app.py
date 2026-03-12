@@ -1,7 +1,7 @@
 # app.py
 # ---------------------------------------------------------------
-# YOUR NAME:
-# PROJECT NAME:
+# YOUR NAME:Marco Montez Winell
+# PROJECT NAME:Productivity App Polo
 # DATE STARTED:
 # DESCRIPTION:
 #   (Write 2-3 sentences describing what your app does.)
@@ -18,7 +18,7 @@ class MyApp:
     def __init__(self, root):
         # --- Window setup ---
         self.root = root
-        self.root.title("Student Productivity Suite")  # TODO: Change to your app name
+        self.root.title("Polo Productivity App!")  # TODO: Change to your app name
         self.root.geometry("850x620")
         self.root.minsize(600, 400)
 
@@ -363,7 +363,7 @@ class MyApp:
         # TODO: Update with your name and app description
         messagebox.showinfo(
             "About",
-            "Student Productivity Suite\n\nBuilt with Python & Tkinter\nCreated by: [Your Name]"
+            "Polo Productivity App!\n\nBuilt with Python & Tkinter\nCreated by: Marco Montez Winell"
         )
 
 
