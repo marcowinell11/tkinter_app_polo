@@ -3,7 +3,7 @@
 # YOUR NAME:Marco Montez Winell
 # PROJECT NAME:Productivity App Polo
 # DATE STARTED:
-# DESCRIPTION:
+# DESCRIPTION:This app produces tivity.
 #   (Write 2-3 sentences describing what your app does.)
 # ---------------------------------------------------------------
 
@@ -31,7 +31,7 @@ class MyApp:
         self.create_tabs()
         self.setup_task_manager()
         self.setup_study_timer()
-        self.setup_grade_calculator()
+        self.setup_notes()
 
         # --- Status bar along the bottom ---
         self.status_var = tk.StringVar(value="Ready")
@@ -74,12 +74,12 @@ class MyApp:
 
         self.tab_tasks  = ttk.Frame(self.notebook)
         self.tab_timer  = ttk.Frame(self.notebook)
-        self.tab_grades = ttk.Frame(self.notebook)
+        self.tab_notes = ttk.Frame(self.notebook)
 
         # TODO (Part 2): Rename these to match your app's features
         self.notebook.add(self.tab_tasks,  text="Tasks")
         self.notebook.add(self.tab_timer,  text="Study Timer")
-        self.notebook.add(self.tab_grades, text="Grades")
+        self.notebook.add(self.tab_notes, text="Notes")
 
     # ================================================================
     # PART 1 & 2 — TAB CONTENT
@@ -195,23 +195,23 @@ class MyApp:
         self.timer_seconds = 0
         self._timer_job = None  # holds the root.after() reference so we can cancel it
 
-    def setup_grade_calculator(self):
+    def setup_notes(self):
         """
-        Build the Grade Calculator tab.
+        Build the Notes tab.
         This is a placeholder — complete it after the other tabs are working.
         """
         tk.Label(
-            self.tab_grades,
-            text="Grade Calculator",
+            self.tab_notes,
+            text="Notes",
             font=("Arial", 16, "bold")
         ).pack(pady=(15, 5))
+        input_frame = tk.Frame(self.tab_notes)
+        input_frame.pack(pady=5)
 
-        tk.Label(
-            self.tab_grades,
-            text="Coming soon — build this after Parts 1-3 are complete.",
-            font=("Arial", 11),
-            fg="#888888"
-        ).pack(pady=20)
+        tk.Label(input_frame, text="New note:").grid(row=0, column=0, padx=5)
+
+        self.note_entry = tk.Text(input_frame, width=35, height=17.5)
+        self.note_entry.grid(row=0, column=1, padx=5)
 
         # TODO (stretch goal): Replace the placeholder above with a form
         # where the user enters assignment names, scores, and weights,
@@ -365,7 +365,6 @@ class MyApp:
             "About",
             "Polo Productivity App!\n\nBuilt with Python & Tkinter\nCreated by: Marco Montez Winell"
         )
-
 
 # ================================================================
 # ENTRY POINT
