@@ -373,6 +373,6 @@ class MyApp:
 # ================================================================
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = ttk.Window(themename="superhero")
     app = MyApp(root)
     root.mainloop()
