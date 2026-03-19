@@ -28,6 +28,7 @@ class MyApp:
         # These store your app's state while it's running.
         self.tasks = []
         self.task_notes = []  # parallel list — one note string per task
+        self.notes_data = []  # list of {"title": str, "content": str}
 
         # --- Build the UI ---
         self.create_menu()
@@ -201,24 +202,24 @@ class MyApp:
     def setup_notes(self):
         """
         Build the Notes tab.
-        This is a placeholder — complete it after the other tabs are working.
+        Layout: input row at top, then a left/right split —
+        listbox of note titles on the left, editable text area on the right.
         """
+        # -- Header --
         tk.Label(
             self.tab_notes,
             text="Notes",
             font=("Arial", 16, "bold")
         ).pack(pady=(15, 5))
 
+        # -- Input row for creating new notes --
         input_frame = tk.Frame(self.tab_notes)
         input_frame.pack(pady=5)
-        tk.Label(input_frame, text="New note:").grid(row=0, column=0, padx=5)
 
-        self.note_entry = tk.Entry(input_frame, width=35)
-        self.note_entry.grid(row=0, column=1, padx=5)
+        tk.Label(input_frame, text="New note title:").grid(row=0, column=0, padx=5)
 
-        self.note_entry = tk.Entry(input_frame, width=35)
+        self.note_entry = tk.Entry(input_frame, width=30)
         self.note_entry.grid(row=0, column=1, padx=5)
-        # Pressing Enter works the same as clicking Add
         self.note_entry.bind("<Return>", lambda event: self.add_note())
 
         tk.Button(
@@ -226,25 +227,67 @@ class MyApp:
             text="Add Note",
             command=self.add_note
         ).grid(row=0, column=2, padx=5)
-        
-        list_frame = tk.Frame(self.tab_notes)
-        list_frame.pack(pady=10, fill="both", expand=True, padx=20)
-        scrollbar = tk.Scrollbar(list_frame)
-        scrollbar.pack(side="right", fill="y")
+
+        # -- Split area: listbox on the left, editor on the right --
+        split_frame = tk.Frame(self.tab_notes)
+        split_frame.pack(fill="both", expand=True, padx=15, pady=5)
+
+        # Left pane — note titles list
+        left_frame = tk.Frame(split_frame)
+        left_frame.pack(side="left", fill="both")
+
+        tk.Label(left_frame, text="Notes", font=("Arial", 10, "bold")).pack(pady=(0, 2))
+
+        lb_scroll = tk.Scrollbar(left_frame)
+        lb_scroll.pack(side="right", fill="y")
+
         self.notes_listbox = tk.Listbox(
-            list_frame,
-            width=55,
-            height=14,
-            yscrollcommand=scrollbar.set,
+            left_frame,
+            width=22,
+            yscrollcommand=lb_scroll.set,
             font=("Arial", 11),
             selectmode="single"
         )
         self.notes_listbox.pack(side="left", fill="both", expand=True)
-        scrollbar.config(command=self.notes_listbox.yview)
+        lb_scroll.config(command=self.notes_listbox.yview)
 
-        # TODO (stretch goal): Replace the placeholder above with a form
-        # where the user enters assignment names, scores, and weights,
-        # and the app calculates a weighted average.
+        # Selecting a note loads its content into the text editor
+        self.notes_listbox.bind("<<ListboxSelect>>", self.on_note_select)
+
+        # Right pane — content editor
+        right_frame = tk.Frame(split_frame, relief="groove", bd=2)
+        right_frame.pack(side="left", fill="both", expand=True, padx=(12, 0))
+
+        tk.Label(right_frame, text="Note Content", font=("Arial", 10, "bold")).pack(pady=(6, 2))
+
+        txt_scroll = tk.Scrollbar(right_frame)
+        txt_scroll.pack(side="right", fill="y")
+
+        self.note_text = tk.Text(
+            right_frame,
+            font=("Arial", 11),
+            wrap="word",
+            yscrollcommand=txt_scroll.set,
+            state="disabled"
+        )
+        self.note_text.pack(fill="both", expand=True, padx=6, pady=(0, 6))
+        txt_scroll.config(command=self.note_text.yview)
+
+        # -- Action buttons below the split --
+        btn_frame = tk.Frame(self.tab_notes)
+        btn_frame.pack(pady=6)
+
+        tk.Button(
+            btn_frame,
+            text="Save Note",
+            command=self.save_note
+        ).pack(side="left", padx=8)
+
+        tk.Button(
+            btn_frame,
+            text="Delete Note",
+            command=self.delete_note
+        ).pack(side="left", padx=8)
 
     # ================================================================
     # PART 3 — EVENT HANDLERS
@@ -350,14 +393,60 @@ class MyApp:
             minutes = 25
         self.timer_display.config(text=f"{minutes:02d}:00")
         self.status_var.set("Timer reset.")
+
     def add_note(self):
-        note = self.note_entry.get().strip()
-        if not note:
-            messagebox.showwarning("Empty Note", "Please enter a note name before clicking Add.")
+        """Create a new note with an empty body and select it."""
+        title = self.note_entry.get().strip()
+        if not title:
+            messagebox.showwarning("Empty Title", "Please enter a note title before clicking Add.")
             return
-        self.notes_listbox.insert(tk.END, f"☐  {note}")
+        self.notes_data.append({"title": title, "content": ""})
+        self.notes_listbox.insert(tk.END, title)
         self.note_entry.delete(0, tk.END)
-        self.status_var.set(f"Note added: {note}")
+        # Auto-select the new note so the user can start typing right away
+        idx = self.notes_listbox.size() - 1
+        self.notes_listbox.selection_clear(0, tk.END)
+        self.notes_listbox.selection_set(idx)
+        self.notes_listbox.see(idx)
+        self._load_note(idx)
+        self.status_var.set(f"Note created: {title}")
+
+    def on_note_select(self, event):
+        """Called when the user clicks a note in the listbox."""
+        selection = self.notes_listbox.curselection()
+        if selection:
+            self._load_note(selection[0])
+
+    def _load_note(self, index):
+        """Put the stored content for note at index into the text editor."""
+        content = self.notes_data[index]["content"]
+        self.note_text.config(state="normal")
+        self.note_text.delete("1.0", tk.END)
+        self.note_text.insert("1.0", content)
+
+    def save_note(self):
+        """Write the text editor's current content back to the selected note."""
+        selection = self.notes_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("No Selection", "Please select a note to save.")
+            return
+        idx = selection[0]
+        self.notes_data[idx]["content"] = self.note_text.get("1.0", tk.END).rstrip("\n")
+        self.status_var.set(f"Note saved: {self.notes_data[idx]['title']}")
+
+    def delete_note(self):
+        """Remove the selected note from both the listbox and data list."""
+        selection = self.notes_listbox.curselection()
+        if not selection:
+            messagebox.showwarning("No Selection", "Please select a note to delete.")
+            return
+        idx = selection[0]
+        self.notes_listbox.delete(idx)
+        self.notes_data.pop(idx)
+        # Clear the editor
+        self.note_text.delete("1.0", tk.END)
+        self.note_text.config(state="disabled")
+        self.status_var.set("Note deleted.")
 
     # ================================================================
     # PART 3 — SAVE & LOAD
