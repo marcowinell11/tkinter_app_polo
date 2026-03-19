@@ -228,6 +228,22 @@ class MyApp:
             command=self.add_note
         ).grid(row=0, column=2, padx=5)
 
+        # -- Action buttons — packed BEFORE the split so they always stay visible --
+        btn_frame = tk.Frame(self.tab_notes)
+        btn_frame.pack(side="bottom", pady=6)
+
+        tk.Button(
+            btn_frame,
+            text="Save Note",
+            command=self.save_note
+        ).pack(side="left", padx=8)
+
+        tk.Button(
+            btn_frame,
+            text="Delete Note",
+            command=self.delete_note
+        ).pack(side="left", padx=8)
+
         # -- Split area: listbox on the left, editor on the right --
         split_frame = tk.Frame(self.tab_notes)
         split_frame.pack(fill="both", expand=True, padx=15, pady=5)
@@ -272,22 +288,6 @@ class MyApp:
         )
         self.note_text.pack(fill="both", expand=True, padx=6, pady=(0, 6))
         txt_scroll.config(command=self.note_text.yview)
-
-        # -- Action buttons below the split --
-        btn_frame = tk.Frame(self.tab_notes)
-        btn_frame.pack(pady=6)
-
-        tk.Button(
-            btn_frame,
-            text="Save Note",
-            command=self.save_note
-        ).pack(side="left", padx=8)
-
-        tk.Button(
-            btn_frame,
-            text="Delete Note",
-            command=self.delete_note
-        ).pack(side="left", padx=8)
 
     # ================================================================
     # PART 3 — EVENT HANDLERS
