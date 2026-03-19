@@ -27,6 +27,7 @@ class MyApp:
         # --- Data ---
         # These store your app's state while it's running.
         self.tasks = []
+        self.task_notes = []  # parallel list — one note string per task
 
         # --- Build the UI ---
         self.create_menu()
@@ -207,13 +208,39 @@ class MyApp:
             text="Notes",
             font=("Arial", 16, "bold")
         ).pack(pady=(15, 5))
+
         input_frame = tk.Frame(self.tab_notes)
         input_frame.pack(pady=5)
-
         tk.Label(input_frame, text="New note:").grid(row=0, column=0, padx=5)
 
-        self.note_entry = tk.Text(input_frame, width=35, height=17.5)
+        self.note_entry = tk.Entry(input_frame, width=35)
         self.note_entry.grid(row=0, column=1, padx=5)
+
+        self.note_entry = tk.Entry(input_frame, width=35)
+        self.note_entry.grid(row=0, column=1, padx=5)
+        # Pressing Enter works the same as clicking Add
+        self.note_entry.bind("<Return>", lambda event: self.add_note())
+
+        tk.Button(
+            input_frame,
+            text="Add Note",
+            command=self.add_note
+        ).grid(row=0, column=2, padx=5)
+        
+        list_frame = tk.Frame(self.tab_notes)
+        list_frame.pack(pady=10, fill="both", expand=True, padx=20)
+        scrollbar = tk.Scrollbar(list_frame)
+        scrollbar.pack(side="right", fill="y")
+        self.notes_listbox = tk.Listbox(
+            list_frame,
+            width=55,
+            height=14,
+            yscrollcommand=scrollbar.set,
+            font=("Arial", 11),
+            selectmode="single"
+        )
+        self.notes_listbox.pack(side="left", fill="both", expand=True)
+        scrollbar.config(command=self.notes_listbox.yview)
 
         # TODO (stretch goal): Replace the placeholder above with a form
         # where the user enters assignment names, scores, and weights,
@@ -323,6 +350,14 @@ class MyApp:
             minutes = 25
         self.timer_display.config(text=f"{minutes:02d}:00")
         self.status_var.set("Timer reset.")
+    def add_note(self):
+        note = self.note_entry.get().strip()
+        if not note:
+            messagebox.showwarning("Empty Note", "Please enter a note name before clicking Add.")
+            return
+        self.notes_listbox.insert(tk.END, f"☐  {note}")
+        self.note_entry.delete(0, tk.END)
+        self.status_var.set(f"Note added: {note}")
 
     # ================================================================
     # PART 3 — SAVE & LOAD
